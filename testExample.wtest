@@ -1,9 +1,67 @@
-import example.pepita
+import example.*
 
 describe "group of tests for pepita" {
 
-  test "pepita has initial energy" {
-    assert.equals(100, pepita.energy())
+  test "Roberto puede entregar un paquete pago en un camion con un acoplado"{
+    roberto.cambiarVehiculo(camion)
+    camion.establecerCantidadDeAcoplados(1)
+
+
+    assert.that(puenteDeBrooklyn.dejaPasar(roberto, paquete))
+  }
+
+  test "Neo con credito no puede entregar el paquete que no esta pago a la matrix"{
+    paquete.establecerSiEstaPago(false)
+
+
+    assert.notThat(matrix.dejaPasar(neo, paquete))
+  }
+
+
+  test "La empresa contrata a Neo"{
+    empresaDeMensajeria.contratar(neo)
+    assert.equals(empresaDeMensajeria.mensajeros(), [neo])
+  }
+
+  test "La empresa despide a Neo"{
+    empresaDeMensajeria.contratar(neo)
+    empresaDeMensajeria.contratar(roberto)
+    empresaDeMensajeria.despedir(neo)
+
+    assert.equals(empresaDeMensajeria.mensajeros(), [roberto])
+  }
+
+  test "La empresa despide a todos"{
+    empresaDeMensajeria.contratar(neo)
+    empresaDeMensajeria.contratar(roberto)
+    empresaDeMensajeria.contratar(chuck)
+    empresaDeMensajeria.despedirATodos()
+
+    assert.equals(empresaDeMensajeria.mensajeros(), [])
+  }
+
+  test "La empresa es grande"{
+    empresaDeMensajeria.contratar(neo)
+    empresaDeMensajeria.contratar(roberto)
+    empresaDeMensajeria.contratar(chuck)
+
+    assert.that(empresaDeMensajeria.esGrande())
+  }
+
+  test "El paquete puede ser entregado por el primer mensajero"{
+    empresaDeMensajeria.contratar(neo)
+    empresaDeMensajeria.contratar(roberto)
+    empresaDeMensajeria.contratar(chuck)
+
+    assert.that(empresaDeMensajeria.elPrimerMensajeroPuedeEntregarElPaquete(paquete, matrix))
+  }
+
+  test "El peso del ultimo mensajero es 0 (Porque es Neo)"{
+    empresaDeMensajeria.contratar(roberto)
+    empresaDeMensajeria.contratar(chuck)
+    empresaDeMensajeria.contratar(neo)
+
+    assert.equals(empresaDeMensajeria.pesoDelUltimoMensajero(), 0)
   }
 
 }
